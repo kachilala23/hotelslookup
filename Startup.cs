@@ -1,3 +1,5 @@
+using AutoMapper;
+using HotelsLookUp.Configurations;
 using HotelsLookUp.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,6 +41,9 @@ namespace HotelsLookUp
                     .AllowAnyMethod()
                     .AllowAnyHeader());
             });
+
+            services.AddAutoMapper(typeof(MapperInitilizer));
+
 
             services.AddSwaggerGen(c =>
             {
