@@ -28,6 +28,14 @@ namespace HotelsLookUp
         {
 
             services.AddControllers();
+
+            services.AddCors(o => {
+                o.AddPolicy("CorsPolicy", builder => 
+                    builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HotelsLookUp", Version = "v1" });
@@ -44,7 +52,10 @@ namespace HotelsLookUp
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HotelsLookUp v1"));
             }
 
+                       
             app.UseHttpsRedirection();
+
+            app.UseCors("CorsPolicy");
 
             app.UseRouting();
 
