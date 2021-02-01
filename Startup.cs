@@ -1,6 +1,8 @@
 using AutoMapper;
 using HotelsLookUp.Configurations;
 using HotelsLookUp.Data;
+using HotelsLookUp.IRepository;
+using HotelsLookUp.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -43,14 +45,16 @@ namespace HotelsLookUp
             });
 
             services.AddAutoMapper(typeof(MapperInitilizer));
-
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HotelsLookUp", Version = "v1" });
             });
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(op =>
+                op.SerializerSettings.ReferenceLoopHandling =
+                    Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
         }
 
