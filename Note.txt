@@ -1,0 +1,6 @@
+﻿Run cmd as admin
+and then run the code in development mode and both on ther server when the application is deployed.
+We are running the code so as to create enviroment variables
+
+setx KEY "fgffwerd-0545-4bed-7088-93aa3dddhtuu" /M
+

@@ -3,6 +3,7 @@ using HotelsLookUp.Configurations;
 using HotelsLookUp.Data;
 using HotelsLookUp.IRepository;
 using HotelsLookUp.Repository;
+using HotelsLookUp.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -36,6 +37,11 @@ namespace HotelsLookUp
                 options.UseSqlServer(Configuration.GetConnectionString("sqlConnection"))
             );
 
+            services.AddAuthentication();
+            services.ConfigureIdentity();
+            services.ConfigureJWT(Configuration);
+
+
 
             services.AddCors(o => {
                 o.AddPolicy("CorsPolicy", builder => 
@@ -46,6 +52,7 @@ namespace HotelsLookUp
 
             services.AddAutoMapper(typeof(MapperInitilizer));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IAuthManager, AuthManager>();
 
             services.AddSwaggerGen(c =>
             {
@@ -74,7 +81,7 @@ namespace HotelsLookUp
             app.UseCors("CorsPolicy");
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
